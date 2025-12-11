@@ -1,0 +1,632 @@
+/* ==========================================================================
+   NEXUS DIGITAL SOLUTIONS - FOLHA DE ESTILO PRINCIPAL
+   ==========================================================================
+   ARQUITETURA:
+   0. CONFIG & SETUP (Fontes, Variáveis CSS)
+   1. RESET & BASE (Reset moderno, estilos globais do body, tipografia)
+   2. ACCESSIBILITY & UTILITIES (Classes utilitárias como .visually-hidden)
+   3. LAYOUT (Container principal)
+   4. HEADER & NAVIGATION
+   5. SECTIONS (Estilos para cada seção principal)
+   6. COMPONENTS (Cards, Botões, Formulários)
+   7. FOOTER
+   8. MEDIA QUERIES (Design Responsivo Mobile-First)
+   ========================================================================== */
+
+/* -------------------------------------------------------------------------- */
+/* 0. CONFIG & SETUP                                                          */
+/* -------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+  /* Cores (Usando HSL para fácil manipulação) */
+  --clr-dark: 230 35% 7%;      /* Azul muito escuro para BG */
+  --clr-light: 230 15% 95%;   /* Branco acinzentado para texto */
+  --clr-slate: 230 25% 25%;   /* Azul-cinza para cards */
+  --clr-accent: 170 80% 40%;   /* Azul-ciano vibrante para destaque */
+  --clr-accent-dark: 170 80% 30%; /* Para hover do botão */
+
+  /* Tipografia */
+  --ff-primary: 'Poppins', sans-serif;
+  --fs-base: 1.6rem; /* Equivalente a 16px */
+  --fs-sm: 1.4rem;
+  --fs-lg: 2rem;
+  
+  /* Tipografia Fluida para Títulos Principais */
+  --fs-h1: clamp(3.5rem, 8vw + 1rem, 7rem);
+  --fs-h2: clamp(2.8rem, 5vw + 1rem, 4.5rem);
+  --fs-h3: 2.2rem;
+
+  /* Outros */
+  --spacing-base: 2rem;
+  --border-radius: 8px;
+  --transition-speed: 250ms;
+  --max-width: 1200px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 1. RESET & BASE                                                            */
+/* -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%; /* 1rem = 10px, para facilitar cálculos de rem */
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: hsl(var(--clr-dark));
+  color: hsl(var(--clr-light));
+  font-family: var(--ff-primary);
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+h1, h2, h3 {
+  line-height: 1.2;
+  font-weight: 700;
+  color: hsl(var(--clr-light));
+}
+
+h1 { font-size: var(--fs-h1); }
+h2 { font-size: var(--fs-h2); margin-bottom: calc(var(--spacing-base) * 2); }
+h3 { font-size: var(--fs-h3); }
+
+p {
+  max-width: 70ch; /* Limita a largura do parágrafo para melhor legibilidade */
+}
+
+a {
+  color: hsl(var(--clr-accent));
+  text-decoration: none;
+  transition: color var(--transition-speed) ease;
+}
+
+a:hover, a:focus-visible {
+  color: hsl(var(--clr-light));
+}
+
+ul {
+  list-style: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. ACCESSIBILITY & UTILITIES                                               */
+/* -------------------------------------------------------------------------- */
+/* Pula para o conteúdo principal */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  padding: 1rem 2rem;
+  background: hsl(var(--clr-accent));
+  color: hsl(var(--clr-dark));
+  font-weight: bold;
+  z-index: 9999;
+  transition: top var(--transition-speed) ease-in-out;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* Oculta visualmente mas mantém acessível para leitores de tela */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Respeita a preferência do usuário por movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 3. LAYOUT                                                                  */
+/* -------------------------------------------------------------------------- */
+.container {
+  width: 90%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+}
+
+section {
+  padding-block: calc(var(--spacing-base) * 4);
+}
+
+/* ==========================================================================
+   4. HEADER & NAVEGAÇÃO (VERSÃO FINAL COMPLETA E CORRIGIDA)
+   ========================================================================== */
+
+/* --- Estilo Geral do Cabeçalho --- */
+.main-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding-block: var(--spacing-base);
+  background-color: hsla(var(--clr-dark), 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid hsl(var(--clr-slate));
+}
+
+.main-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: 600;
+  font-size: var(--fs-lg);
+  color: hsl(var(--clr-light));
+  z-index: 1001; /* Garante que o logo fique acima do menu mobile */
+}
+.logo strong {
+  font-weight: 700;
+  color: hsl(var(--clr-accent));
+}
+
+/* --- Lógica e Estilo do Menu Hamburger (Apenas Mobile) --- */
+.nav-toggle-checkbox {
+  display: none;
+}
+
+.nav-toggle-label {
+  display: block; /* Visível por padrão (mobile-first) */
+  position: relative; /* Mudado de absolute para se manter no fluxo */
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  z-index: 1001; /* Garante que o botão fique acima do menu */
+}
+
+.hamburger,
+.hamburger::before,
+.hamburger::after {
+  content: '';
+  display: block;
+  background: hsl(var(--clr-light));
+  height: 3px;
+  width: 28px;
+  border-radius: 3px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.hamburger::before { transform: translate(-50%, -10px); }
+.hamburger::after { transform: translate(-50%, 10px); }
+
+.nav-toggle-checkbox:checked + .nav-toggle-label .hamburger { transform: translate(-50%, -50%) rotate(45deg); }
+.nav-toggle-checkbox:checked + .nav-toggle-label .hamburger::before { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+.nav-toggle-checkbox:checked + .nav-toggle-label .hamburger::after { transform: translate(-50%, -50%) rotate(-90deg); }
+
+
+/* --- Estilos do Painel de Navegação (MOBILE-FIRST) --- */
+.main-nav {
+  position: fixed;
+  inset: 0;
+  background-color: hsl(var(--clr-dark)); /* Fundo 100% sólido e opaco */
+  z-index: 999; /* Fica abaixo do logo e do botão hamburger */
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  overflow-y: auto; /* Permite rolagem se necessário */
+  
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.main-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.main-nav a {
+  display: block;
+  padding: 2rem 0;
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: hsl(var(--clr-light));
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.main-nav a:hover,
+.main-nav a:focus-visible {
+  background-color: hsl(var(--clr-slate));
+  color: hsl(var(--clr-accent));
+}
+
+/* --- Ativação do Menu Mobile --- */
+.nav-toggle-checkbox:checked ~ .main-nav {
+  transform: translateX(0);
+}
+
+
+/* ==========================================================================
+   NOVA NAVEGAÇÃO SIMPLIFICADA
+   ========================================================================== */
+
+/* --- Cabeçalho --- */
+.main-header {
+  position: sticky; top: 0; z-index: 1000;
+  padding-block: 1.5rem;
+  background-color: hsla(var(--clr-dark), 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid hsl(var(--clr-slate));
+}
+.main-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo { font-size: 2rem; color: hsl(var(--clr-light)); font-weight: 600; }
+.logo strong { color: hsl(var(--clr-accent)); }
+
+
+/* --- Menu Lateral Mobile (escondido por padrão) --- */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100%;
+  background-color: hsl(var(--clr-dark));
+  z-index: 2000; /* Acima de tudo */
+  padding-top: 6rem;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+.mobile-menu ul { list-style: none; padding: 0; margin: 0; }
+.mobile-menu a {
+  display: block;
+  padding: 1.5rem 2rem;
+  color: hsl(var(--clr-light));
+  font-size: 1.8rem;
+}
+.mobile-menu a:hover { background-color: hsl(var(--clr-slate)); }
+
+/* --- Overlay (fundo escuro quando o menu está aberto) --- */
+.overlay {
+  position: fixed; inset: 0;
+  background-color: hsla(0, 0%, 0%, 0.5);
+  z-index: 1999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* --- A classe 'is-open' que o JavaScript vai adicionar --- */
+.mobile-menu.is-open { transform: translateX(0); }
+.overlay.is-open { opacity: 1; visibility: visible; }
+
+
+/* --- Botão Hamburger e Navegação Desktop --- */
+.hamburger-btn {
+  background: transparent; border: none; cursor: pointer;
+  display: flex; /* Visível em mobile */
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px;
+}
+.hamburger-line {
+  width: 25px; height: 3px;
+  background-color: hsl(var(--clr-light));
+}
+.desktop-nav {
+  display: none; /* Escondida em mobile */
+}
+
+/* --- Media Query para telas maiores (a partir de 768px) --- */
+@media (min-width: 768px) {
+  .hamburger-btn {
+    display: none; /* Esconde o hamburger no desktop */
+  }
+  .desktop-nav {
+    display: block; /* Mostra a navegação normal no desktop */
+  }
+  .desktop-nav ul {
+    display: flex; gap: 2rem;
+    list-style: none; margin: 0; padding: 0;
+  }
+  .desktop-nav a {
+    color: hsl(var(--clr-light));
+    font-weight: 600;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 5. SECTIONS                                                                */
+/* -------------------------------------------------------------------------- */
+/* --- Seção Hero --- */
+#hero {
+  min-height: 80vh;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  padding-bottom: calc(var(--spacing-base) * 6);
+}
+
+#hero .subtitle {
+  font-size: var(--fs-lg);
+  max-width: 65ch;
+  margin-inline: auto;
+  margin-block: var(--spacing-base) calc(var(--spacing-base) * 2);
+  color: hsla(var(--clr-light), 0.8);
+}
+
+/* --- Seções com Grids de Cards (Diferenciais, Serviços) --- */
+.diferenciais-grid,
+.servicos-grid {
+  display: grid;
+  gap: calc(var(--spacing-base) * 2);
+}
+
+#servicos {
+  background-color: hsl(var(--clr-dark), 0.5); /* Leve variação de fundo */
+}
+
+#contato {
+    background-color: hsl(var(--clr-slate), 0.3);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 6. COMPONENTS                                                              */
+/* -------------------------------------------------------------------------- */
+/* --- Botões --- */
+.cta-button {
+  display: inline-block;
+  background-color: hsl(var(--clr-accent));
+  color: hsl(var(--clr-dark));
+  padding: 1.2rem 3.2rem;
+  border-radius: var(--border-radius);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+
+.cta-button:hover,
+.cta-button:focus-visible {
+  background-color: hsl(var(--clr-accent-dark));
+  color: hsl(var(--clr-dark));
+  transform: translateY(-3px);
+}
+
+/* --- Cards (Diferenciais) --- */
+.diferencial-item {
+  text-align: center;
+  padding: var(--spacing-base);
+}
+
+.diferencial-item svg {
+  color: hsl(var(--clr-accent));
+  margin-inline: auto;
+  margin-bottom: var(--spacing-base);
+}
+
+/* --- Cards (Serviços) --- */
+.servico-card {
+  background-color: hsl(var(--clr-slate));
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 20px hsla(var(--clr-dark), 0.5);
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+.servico-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px hsla(var(--clr-dark), 0.7);
+}
+
+.servico-card img {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.servico-card h3,
+.servico-card p {
+  padding-inline: calc(var(--spacing-base) * 1.5);
+}
+
+.servico-card h3 {
+  padding-top: calc(var(--spacing-base) * 1.5);
+  margin-bottom: var(--spacing-base);
+  color: hsl(var(--clr-accent));
+}
+
+.servico-card p {
+  padding-bottom: calc(var(--spacing-base) * 1.5);
+  flex-grow: 1;
+}
+
+/* --- Formulário de Contato --- */
+#contato .container {
+    display: grid;
+    gap: calc(var(--spacing-base) * 3);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--spacing-base);
+}
+
+.contact-form label {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.contact-form input,
+.contact-form textarea {
+    background-color: hsl(var(--clr-dark));
+    border: 2px solid hsl(var(--clr-slate));
+    border-radius: var(--border-radius);
+    padding: 1.2rem;
+    color: hsl(var(--clr-light));
+    font-family: inherit;
+    font-size: var(--fs-base);
+    transition: border-color var(--transition-speed) ease;
+}
+
+.contact-form input:focus-visible,
+.contact-form textarea:focus-visible {
+    outline: none;
+    border-color: hsl(var(--clr-accent));
+}
+
+.contact-form button {
+  width: 100%;
+  border: none;
+  cursor: pointer;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 7. FOOTER                                                                  */
+/* -------------------------------------------------------------------------- */
+.main-footer {
+  background-color: hsl(var(--clr-dark));
+  padding-block: calc(var(--spacing-base) * 3);
+  border-top: 1px solid hsl(var(--clr-slate));
+}
+
+.main-footer .container {
+  display: grid;
+  gap: var(--spacing-base);
+  text-align: center;
+}
+
+.footer-social ul {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-base);
+}
+
+.footer-social .icon {
+  width: 24px;
+  height: 24px;
+  color: hsl(var(--clr-light));
+  transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+.footer-social a:hover .icon {
+  color: hsl(var(--clr-accent));
+  transform: scale(1.2);
+}
+
+.footer-copyright {
+  font-size: var(--fs-sm);
+  color: hsla(var(--clr-light), 0.7);
+  margin-top: var(--spacing-base);
+}
+
+/* ==========================================================================
+   8. MEDIA QUERIES (VERSÃO FINAL E LIMPA)
+   ========================================================================== */
+
+/* -------------------------------------------------------------------------- */
+/* Tablet (orientação retrato) e telas maiores (768px+)
+/* -------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  
+  /* A parte da NAVBAR antiga foi removida daqui, pois a nova já tem
+     sua própria media query dentro do bloco que você colou antes. */
+  
+  /* --- AJUSTES DE LAYOUT DO RESTO DA PÁGINA --- */
+  section {
+    padding-block: calc(var(--spacing-base) * 5);
+  }
+  #hero {
+    min-height: 85vh;
+  }
+  .diferenciais-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .servicos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  #contato .container {
+    grid-template-columns: 1fr 1.2fr;
+    align-items: center;
+    text-align: left;
+  }
+  .contact-form button {
+    width: auto;
+  }
+  .main-footer .container {
+    grid-template-columns: 2fr 1fr 2fr;
+    align-items: center;
+    text-align: left;
+  }
+  .footer-social ul {
+    justify-content: center;
+  }
+  .footer-copyright {
+    text-align: right;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Tablet (orientação paisagem) e Desktops pequenos (1024px+)
+/* -------------------------------------------------------------------------- */
+@media (min-width: 1024px) {
+  html {
+    font-size: 65%;
+  }
+  .servicos-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  #hero .subtitle {
+    max-width: 60ch;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Desktops Largos (1440px+)
+/* -------------------------------------------------------------------------- */
+@media (min-width: 1440px) {
+  html {
+    font-size: 67.5%;
+  }
+  :root {
+    --max-width: 1360px;
+  }
+  h2 {
+    margin-bottom: calc(var(--spacing-base) * 3);
+  }
+}
